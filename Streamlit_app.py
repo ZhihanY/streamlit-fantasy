@@ -4,10 +4,11 @@ import numpy as np  # np mean, np random
 import pandas as pd  # read csv, df manipulation
 import plotly.express as px  # interactive charts
 import streamlit as st
-from NBACom_Scraper.tools import *
+from tools import *
 import requests
 import pygwalker as pyg
 
+# ---------- Util Funcs -----------
 @output_dataframe
 @stat_parse_decorator
 def get_player_boxscore(season, season_type='Regular Season', advance_filters={}):
@@ -42,6 +43,8 @@ def opponent(row):
 def download(df):
     return df.to_csv(index=False, encoding ='utf-8')
 
+
+# ------------ main ---------------
 season = '2022-23'
 pbs = get_player_boxscore(season)
 pbs['Opponent'] = pbs['MATCHUP'].apply(opponent)
