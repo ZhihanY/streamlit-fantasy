@@ -1,6 +1,4 @@
 import pandas as pd
-import gspread
-from gspread_dataframe import get_as_dataframe, set_with_dataframe
 
 def output_dataframe(func):
     '''
@@ -8,26 +6,12 @@ def output_dataframe(func):
     df: DataFrame
     season: string
     directory: string
-
     '''
     def wrapper(*args, **kwargs):
         #out['season'] = season
         return pd.DataFrame(func(*args, **kwargs)) 
     return wrapper 
 
-def add_worksheet(url, creds, worksheets):
-    '''
-    -- 
-
-    url: string
-        the URL of the Google Sheet you want to work with
-    worksheets: list
-        input a list of worksheet names you want to add to an exisitng Google Sheet
-    '''
-    gc = gspread.authorize(creds)  
-    gs = gc.open_by_url(url)
-    for sheet in worksheets:
-        gs.add_worksheet(title=sheet, rows='2000', cols='50')  
      
 def stat_parse_decorator(data):
     '''
@@ -35,8 +19,6 @@ def stat_parse_decorator(data):
     
     data: JSON source returned from stat.nba.com 
     '''
-    #def decorator(data):
-        #@wraps(data)
     def processor(*args, **kwargs):
         res = data(*args, **kwargs)
         out = {}
